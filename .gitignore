@@ -9,3 +9,9 @@ outputs/
 # 系统
 Thumbs.db
 .DS_Store
+
+# Historical local validation notes are not current release material.
+架构与改进建议.txt
+真实数据一致性验证.json
+验收报告.txt
+验收记录.json

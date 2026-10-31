@@ -1,0 +1,51 @@
+{
+  "software_name": "头皮脑电癫痫发作预测软件",
+  "software_version": "V1.0",
+  "verification_date": "2026-10-31",
+  "source_files": 18,
+  "source_lines": 3470,
+  "python_tests": {
+    "passed": 72,
+    "failed": 0
+  },
+  "frontend_tests": {
+    "passed": 7,
+    "failed": 0
+  },
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "scikit_learn": "1.9.0",
+    "matplotlib": "3.11.0",
+    "three_js": "0.186.1"
+  },
+  "real_edf_network": {
+    "bytes": 7097866,
+    "MiB": 6.769052505493164,
+    "frames": 12,
+    "channels": 18,
+    "waveform_samples": 1280,
+    "sampling_hz": 128,
+    "matrices_symmetric": true,
+    "finite_coherences_bounded": true,
+    "source_kind": "edf",
+    "software_name": "头皮脑电癫痫发作预测软件",
+    "software_version": "V1.0"
+  },
+  "synthetic_600_seconds_network": {
+    "bytes": 35202979,
+    "MiB": 33.572176933288574,
+    "frames": 60,
+    "channels": 18,
+    "waveform_samples": 1280,
+    "sampling_hz": 128,
+    "matrices_symmetric": true,
+    "finite_coherences_bounded": true,
+    "source_kind": "synthetic_demo",
+    "software_name": "头皮脑电癫痫发作预测软件",
+    "software_version": "V1.0"
+  },
+  "limits": "Research and baseline validation only; not clinical decision support. Network size is serialized file size, not peak memory.",
+  "original_data_or_private_job_files_included": false
+}
