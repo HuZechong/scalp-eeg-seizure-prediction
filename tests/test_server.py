@@ -12,8 +12,8 @@ import unittest
 from unittest.mock import patch
 from urllib.parse import urlencode
 
-from eegseizguard.server import LocalServer
-from eegseizguard.storage import Cancelled
+from eegseizguard.server import LocalServer,JobManager
+from eegseizguard.storage import Cancelled,write_json
 
 
 class HTTPTests(unittest.TestCase):
@@ -165,6 +165,64 @@ class HTTPTests(unittest.TestCase):
             result={'output_paths':{'dataset':'train.npz','model':'train.json'}})
         defaults=manager.defaults()
         self.assertEqual((defaults['dataset'],defaults['model']),('train.npz','train.json'))
+
+    def test_recovery_skips_structurally_invalid_json_states(self):
+        job_id='abcdef1234567890'
+        folder=self.root/'outputs'/job_id
+        folder.mkdir()
+        valid=dict(id=job_id,action='demo',status='completed',created=1,progress=100,
+                   logs=[],result={'artifacts':[]},error=None)
+        invalid=[[],None,True,dict(valid,status=[]),dict(valid,created='yesterday'),
+                 dict(valid,progress=True),dict(valid,logs={}),dict(valid,result=[]),
+                 dict(valid,result={'artifacts':[None]}),dict(valid,result={'output_paths':[]})]
+        for state in invalid:
+            write_json(folder/'job.json',state)
+            with self.subTest(state=state):
+                restored=JobManager(self.root)
+                self.assertEqual(restored.snapshot(),{'jobs':[]})
+        write_json(folder/'job.json',valid)
+        self.assertEqual(JobManager(self.root).snapshot(job_id),valid)
+
+    def test_recovery_preserves_valid_unfinished_state_as_failed(self):
+        job_id='fedcba0987654321'
+        folder=self.root/'outputs'/job_id
+        folder.mkdir()
+        write_json(folder/'job.json',dict(id=job_id,action='demo',status='running',
+                   created=1,progress=45,logs=['fixture'],result=None,error=None))
+        restored=JobManager(self.root)
+        self.assertEqual(restored.snapshot(job_id)['status'],'failed')
+        self.assertIn('上次程序退出',restored.snapshot(job_id)['error'])
+
+    def test_accepted_final_stage_cancel_does_not_publish_completed_result(self):
+        finishing=threading.Event()
+        release=threading.Event()
+        def final_stage_task(action,params,out,log,cancel):
+            finishing.set()
+            if not release.wait(timeout=3):
+                raise RuntimeError('测试未释放收尾步骤')
+            return {'summary':'fixture','artifacts':[]}
+        with patch('eegseizguard.server.run_action',side_effect=final_stage_task):
+            status,_,body=self.post({'action':'demo','params':{}})
+            self.assertEqual(status,202)
+            job=json.loads(body)
+            self.assertTrue(finishing.wait(timeout=1))
+            status,_,_=self.request('POST','/api/cancel',
+                body=json.dumps({'id':job['id']}).encode(),headers={
+                'Content-Type':'application/json','X-CSRF-Token':self.server.csrf})
+            self.assertEqual(status,200)
+            release.set()
+            deadline=time.monotonic()+2
+            while time.monotonic()<deadline:
+                current=self.server.manager.snapshot(job['id'])
+                if current['status']=='cancelled':
+                    break
+                time.sleep(.01)
+            self.assertEqual(current['status'],'cancelled')
+            self.assertIsNone(current['result'])
+            status,_,_=self.request('POST','/api/cancel',
+                body=json.dumps({'id':job['id']}).encode(),headers={
+                'Content-Type':'application/json','X-CSRF-Token':self.server.csrf})
+            self.assertEqual(status,400)
 
 
 if __name__ == '__main__':

@@ -194,6 +194,9 @@ def run_action(action,params,out,log,cancel):
     elif action=='predict':
         dataset=load_dataset(params.get('dataset'))
         model=load_model(params.get('model'))
+        test_known=(dataset.split=='test')&(dataset.y!=-1)
+        if test_known.any() and not model['training_patients']:
+            raise ValueError('缺少模型训练患者来源，无法核验独立测试评估；请补齐来源或使用 inference 分区。')
         declared=set(model['training_patients'])|set(model['validation_patients'])
         if set(dataset.patient[dataset.split=='test'])&declared:
             raise ValueError('独立测试患者出现在模型训练或验证来源中，拒绝泄漏评估。')
@@ -265,9 +268,11 @@ def run_action(action,params,out,log,cancel):
             labels={'roc_curve.png':'ROC曲线图','pr_curve.png':'PR曲线图',
                     'patient_metrics.png':'患者指标对比图','confusion_matrix.png':'混淆矩阵图'}
             result['artifacts'] += [artifact(name,labels[name]) for name in chart_names]
+    check_cancel(cancel)
     input_files.update(result.pop('input_files',{}))
     if any(file_hash(item['path'])!=item['sha256'] for item in input_files.values()):
         raise ValueError('输入文件在任务过程中改变；拒绝将结果标为完成。')
+    check_cancel(cancel)
     write_json(out/'provenance.json',dict(action=action,params=params,protocol=PROTOCOL.to_dict(),
                feature_contract=feature_contract(),python=platform.python_version(),
                input_files=input_files,

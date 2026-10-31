@@ -3,11 +3,13 @@ from pathlib import Path
 import tempfile
 import threading
 import unittest
+from unittest.mock import patch
 
-from eegseizguard.data import load_dataset
+from eegseizguard.data import load_dataset, save_dataset
 from eegseizguard.pipeline import run_action
 from eegseizguard.storage import Cancelled, read_json, write_json
 from test_signal import write_edf
+from test_data_model_evaluation import dataset, model
 
 
 class PipelineTests(unittest.TestCase):
@@ -73,6 +75,45 @@ class PipelineTests(unittest.TestCase):
             run_action('demo', {}, self.path / 'run', lambda *args: None, cancelled)
         self.assertFalse((self.path / 'run' / 'model.json').exists())
         self.assertFalse((self.path / 'run' / 'provenance.json').exists())
+
+    def test_cancellation_during_chart_generation_does_not_finalize(self):
+        cancelled = threading.Event()
+        def charts_then_cancel(*args):
+            cancelled.set()
+            return []
+        with patch('eegseizguard.pipeline.make_charts', side_effect=charts_then_cancel):
+            with self.assertRaises(Cancelled):
+                run_action('demo', {}, self.path / 'run', lambda *args: None, cancelled)
+        self.assertFalse((self.path / 'run' / 'provenance.json').exists())
+
+    def test_independent_evaluation_requires_declared_training_patients(self):
+        data = dataset()
+        save_dataset(self.path / 'data.npz', data)
+        imported = model()
+        imported['training_patients'] = []
+        imported['validation_patients'] = []
+        write_json(self.path / 'model.json', imported)
+        with self.assertRaisesRegex(ValueError, '训练患者来源'):
+            run_action('predict', {'dataset': str(self.path / 'data.npz'),
+                                  'model': str(self.path / 'model.json')},
+                       self.path / 'run', lambda *args: None, threading.Event())
+        self.assertFalse((self.path / 'run' / 'predictions.csv').exists())
+
+    def test_inference_without_evaluation_accepts_unknown_training_origin(self):
+        data = dataset()
+        data.split = data.split.astype('U12')
+        data.split[:] = 'inference'
+        save_dataset(self.path / 'data.npz', data)
+        imported = model()
+        imported['training_patients'] = []
+        imported['validation_patients'] = []
+        write_json(self.path / 'model.json', imported)
+        result = run_action('predict', {'dataset': str(self.path / 'data.npz'),
+                                       'model': str(self.path / 'model.json')},
+                            self.path / 'run', lambda *args: None, threading.Event())
+        self.assertIsNone(result['metrics'])
+        self.assertTrue((self.path / 'run' / 'predictions.csv').is_file())
+        self.assertTrue((self.path / 'run' / 'provenance.json').is_file())
 
 
 if __name__ == '__main__':

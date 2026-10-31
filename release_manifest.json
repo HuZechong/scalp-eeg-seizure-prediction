@@ -1,0 +1,204 @@
+{
+  "software": "头皮脑电癫痫发作预测软件",
+  "version": "V1.0",
+  "exclusions": [
+    "outputs",
+    "raw EEG",
+    "cache",
+    "private environment files"
+  ],
+  "files": {
+    "eegseizguard/__init__.py": {
+      "bytes": 127,
+      "sha256": "f8c80e0c409eafca5e06f05a9164a583c1abe26a7efd7f0a8a6bacd71681468f"
+    },
+    "eegseizguard/charts.py": {
+      "bytes": 5287,
+      "sha256": "65f5e204eaa0f84d735de3eb6691958e5d29574f730b7738835cb20961d7f53e"
+    },
+    "eegseizguard/config.py": {
+      "bytes": 1265,
+      "sha256": "1f6d11459236362ce7a4342b67eb02f98ebbadfbd5fcbfe4e96b462a8b51f6a2"
+    },
+    "eegseizguard/connectivity.py": {
+      "bytes": 19532,
+      "sha256": "d78dcdc2d9ea98b7dd72aa37c2dfbf179e74160dfe3c13929f1ec252cebffdce"
+    },
+    "eegseizguard/data.py": {
+      "bytes": 5543,
+      "sha256": "5f1e2139e602b926b8440ba62eaeb59431b4ef92987cafa911bef3e26da3d499"
+    },
+    "eegseizguard/evaluation.py": {
+      "bytes": 5554,
+      "sha256": "6e3d853d5789f46b23cc0fe892b037d323c23af643e361a2e3ac331dc7e15f7d"
+    },
+    "eegseizguard/history.py": {
+      "bytes": 14730,
+      "sha256": "6097dc8ccb48274f8cfc0530ff874c93e60dbab14056de1fd748102da091b06a"
+    },
+    "eegseizguard/model.py": {
+      "bytes": 5799,
+      "sha256": "636b2f608c885b3267dc69dbd579adf36b9cb0edf609dfbbde3176dfb130e835"
+    },
+    "eegseizguard/pipeline.py": {
+      "bytes": 17317,
+      "sha256": "34cc1e58981d3488579641c8bbd9af2a7f7a960f5ebbf1930767f32ca2acde26"
+    },
+    "eegseizguard/server.py": {
+      "bytes": 13198,
+      "sha256": "2da2ffcc40e332575c9de718972164568466a4fbae18e0b8c95c4ba5e61a227a"
+    },
+    "eegseizguard/signal.py": {
+      "bytes": 14417,
+      "sha256": "f55db219a657364969bc265609928fff19b4105a810c516e3576979a4d8d6f93"
+    },
+    "eegseizguard/storage.py": {
+      "bytes": 2297,
+      "sha256": "76f2186b73dac5bb3b3d928642e8d782506a66d69de7ae08b059827de51d765c"
+    },
+    "examples/historical_model.json": {
+      "bytes": 7052,
+      "sha256": "6a6557a82b602be4d276caf9d7810aaf95cfeed0c6446d059439230e109cf36b"
+    },
+    "examples/manifest.example.json": {
+      "bytes": 766,
+      "sha256": "83fd20196681747438c477e11b25b0cc3a2e2a4f5412b4cc00fd8476612e02d3"
+    },
+    "examples/network_demo.json": {
+      "bytes": 2708207,
+      "sha256": "9af8027e2e0cba239f340146d329aacad8644d1689f30f8b1faadd969c88cc62"
+    },
+    "export_source.py": {
+      "bytes": 1421,
+      "sha256": "a5b297eddf424a7b1013f0ad2da8615d80645e71f82f0650ddb704273652cfac"
+    },
+    "main.py": {
+      "bytes": 3076,
+      "sha256": "fdd1cd5c5a48efb11e422a753758c2b673e659842cd51eeb334499c957c1313d"
+    },
+    "README.md": {
+      "bytes": 4937,
+      "sha256": "5cf0735a603a26a4d6c07722d92fda23a547c78b24c6dfae99c34ce0a1e10d82"
+    },
+    "requirements-lock.txt": {
+      "bytes": 408,
+      "sha256": "c6a4d186366335ac69252ff0bcc4ea27187bee0423e9b74abbb314e814fd4155"
+    },
+    "requirements.txt": {
+      "bytes": 69,
+      "sha256": "4a58b7ff4e77b0aaac387395b0374994b32f598790857e3d0c3be4f564797f96"
+    },
+    "source_export/源程序合并.txt": {
+      "bytes": 297801,
+      "sha256": "bb489424efbb6c1bfd873990d0517a443b342c4c8f227af1ea17d033291d8f46"
+    },
+    "source_export/源程序清单.json": {
+      "bytes": 3488,
+      "sha256": "2a64f0d00d32870cd45bdf1b0457db911b547f9f99556ce3a1196babce113cea"
+    },
+    "tests/test_charts.py": {
+      "bytes": 1065,
+      "sha256": "5b82a8bd31318cbd8e8b161af319a409817a2168bb95b7b49f8f721008656f73"
+    },
+    "tests/test_connectivity.py": {
+      "bytes": 9718,
+      "sha256": "ba0c33f686e9bccfd19674bccdc7b9bc70e2b71d70c207e1992d3a4e9e8f53a6"
+    },
+    "tests/test_data_model_evaluation.py": {
+      "bytes": 9475,
+      "sha256": "88c965934be58245a2fb2e9876f7f22547cc054acff7a7253e324013eb4109a2"
+    },
+    "tests/test_history.py": {
+      "bytes": 4901,
+      "sha256": "7e423ae19e933ed0b3d79b29634160cda2503bb59d447a2e5036cf8072365c01"
+    },
+    "tests/test_network_selection.cjs": {
+      "bytes": 4567,
+      "sha256": "f11def626f4265c1c349c0b56632cc5b605d53575fee03813f90ff5e9abc0995"
+    },
+    "tests/test_network_snapshot.cjs": {
+      "bytes": 7554,
+      "sha256": "35fbb35fda28a1c7e7708def12a4410bd115dca8361d7280224d2e9cba32a406"
+    },
+    "tests/test_pipeline.py": {
+      "bytes": 6042,
+      "sha256": "77335ce595463e122205986b89338fa49305b00c72da37548521371fe2b31975"
+    },
+    "tests/test_server.py": {
+      "bytes": 11552,
+      "sha256": "46affb2fb69eac5993cfa37bceac0427c4dda7c0e16450598db69d02aa232f3c"
+    },
+    "tests/test_signal.py": {
+      "bytes": 7806,
+      "sha256": "661b0c4fe0485af996f088e452cd31a751ede9697086ee7ca90a554760b9cc33"
+    },
+    "tests/test_storage.py": {
+      "bytes": 1356,
+      "sha256": "c5b03f53c32c605c6fb2ada4b5765c3152f036231bb1daaaf09f5dfeb3723fbb"
+    },
+    "THIRD_PARTY_NOTICES.txt": {
+      "bytes": 954,
+      "sha256": "d60849e316f0d429cb564a4ab0a851e2e2c612adea079c525d642aa1df319289"
+    },
+    "tools/package_release.py": {
+      "bytes": 2687,
+      "sha256": "972c43df78a278b16099795c781e26fc306b3d50dde0492941b3bc38a50f5ac6"
+    },
+    "tools/vendor_three.py": {
+      "bytes": 1759,
+      "sha256": "389708fac16af214c5f0743ad78c800d3dc29c2b03db82691229a1e9f49b3ab7"
+    },
+    "web/app.js": {
+      "bytes": 46420,
+      "sha256": "f10a85838e97f52ab78cde412d89c3726b848d4a454e450f92dff19978387a8a"
+    },
+    "web/brain-network.css": {
+      "bytes": 17012,
+      "sha256": "350c45b5f81fd1371b96465e401fe65429d2d4ddeb53778ec53079c46aea84d5"
+    },
+    "web/brain-network.js": {
+      "bytes": 60405,
+      "sha256": "955e0fd59733eca2bd334711220494fe1ac6bc306920fd6afd977b7fb85864ff"
+    },
+    "web/index.html": {
+      "bytes": 27904,
+      "sha256": "69c1d32aaa044256966a8da61cd1e6e9b2437178dc51637da70ab7ef279f0b71"
+    },
+    "web/style.css": {
+      "bytes": 40228,
+      "sha256": "9a86391a104e031bbec4a188b0edde89cf4e062344238f0e789a5902d266c783"
+    },
+    "web/vendor/LICENSE-three.txt": {
+      "bytes": 1081,
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    },
+    "web/vendor/OrbitControls.js": {
+      "bytes": 40767,
+      "sha256": "30386f7141d5ce5d5e0a3ab643e4eb16265f4564466108105ce449857f62fdda"
+    },
+    "web/vendor/README.txt": {
+      "bytes": 243,
+      "sha256": "10a89343c298d7cea5bd47c6a868a6b701d7ddee19e69bf789850cc6c766f4d4"
+    },
+    "web/vendor/three.core.js": {
+      "bytes": 1458113,
+      "sha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6"
+    },
+    "web/vendor/three.module.js": {
+      "bytes": 662772,
+      "sha256": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea"
+    },
+    "使用说明.txt": {
+      "bytes": 11471,
+      "sha256": "b8dd2d8bd4f9d412dd78f8a4f9cd04277d5592b1fbc96d56fbf5b2c06f2f035d"
+    },
+    "启动软件.bat": {
+      "bytes": 210,
+      "sha256": "22c75a650c6559e70346450ffc37ecab208f20531c522f42ddb525d34ba446f9"
+    },
+    "安装依赖.bat": {
+      "bytes": 248,
+      "sha256": "ec275d65cddc76b6863ad4860721f22b21a5c94e7be2c4dde9fc518214db6d44"
+    }
+  }
+}

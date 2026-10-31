@@ -1,4 +1,4 @@
-# Verified on Python 3.12.13, Windows x64
+# Verified on Python 3.12.14, Windows x64
 # Required dependency closure only; no unrelated deep-learning packages.
 contourpy==1.3.3
 cycler==0.12.1

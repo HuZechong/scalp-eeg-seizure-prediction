@@ -2,6 +2,7 @@
 import hmac
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 import json
+import math
 from pathlib import Path
 import platform
 import secrets
@@ -13,7 +14,7 @@ from uuid import uuid4
 from . import __version__
 from .config import PROTOCOL
 from .pipeline import run_action
-from .storage import Cancelled,read_json,write_json
+from .storage import Cancelled,read_json,write_json,check_cancel
 
 class JobManager:
     def __init__(self,root):
@@ -24,13 +25,37 @@ class JobManager:
         for path in states:
             try:
                 job=read_json(path,limit=8*1024*1024)
-                if job.get('id')!=path.parent.name:
+                if not self.valid_saved_job(job,path.parent.name):
                     continue
                 if job['status'] in {'queued','running'}:
                     job['status']='failed'; job['error']='上次程序退出时任务未完成，请重新提交。'
                 self.jobs[job['id']]=job
             except (ValueError,OSError,KeyError):
                 continue
+
+    @staticmethod
+    def valid_saved_job(job,id):
+        if not isinstance(job,dict) or job.get('id')!=id:
+            return False
+        if job.get('action') not in ('demo','prepare','train','predict','evaluate','history','connectivity') or job.get('status') not in ('queued','running','completed','failed','cancelled'):
+            return False
+        for key in ('created','progress'):
+            value=job.get(key)
+            if isinstance(value,bool) or not isinstance(value,(int,float)) or (isinstance(value,float) and not math.isfinite(value)):
+                return False
+        if not 0<=job['progress']<=100 or not isinstance(job.get('logs'),list) or any(not isinstance(x,str) for x in job['logs']):
+            return False
+        result=job.get('result')
+        if result is not None and not isinstance(result,dict):
+            return False
+        if result is not None:
+            artifacts=result.get('artifacts',[])
+            if not isinstance(artifacts,list) or any(not isinstance(a,dict) or not isinstance(a.get('name'),str) for a in artifacts):
+                return False
+            paths=result.get('output_paths',{})
+            if not isinstance(paths,dict) or any(not isinstance(v,str) for v in paths.values()):
+                return False
+        return job.get('error') is None or isinstance(job.get('error'),str)
 
     def snapshot(self,id=None):
         with self.lock:
@@ -67,6 +92,7 @@ class JobManager:
         try:
             result=run_action(job['action'],params,out,log,cancel)
             with self.lock:
+                check_cancel(cancel)
                 job.update(status='completed',progress=100,result=result)
         except Cancelled as exc:
             with self.lock:
@@ -82,7 +108,7 @@ class JobManager:
 
     def cancel(self,id):
         with self.lock:
-            if id not in self.cancel_events:
+            if id not in self.cancel_events or self.jobs[id]['status'] not in {'queued','running'}:
                 raise ValueError('该任务已结束或不存在。')
             self.cancel_events[id].set()
             return dict(message='已请求取消，待当前计算步骤结束后停止。')

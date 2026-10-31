@@ -1,0 +1,123 @@
+{
+  "app": "头皮脑电癫痫发作预测软件",
+  "version": "V1.0",
+  "source_lines": 3470,
+  "files": [
+    {
+      "file": "main.py",
+      "lines": 65,
+      "nonblank": 63,
+      "sha256": "fdd1cd5c5a48efb11e422a753758c2b673e659842cd51eeb334499c957c1313d"
+    },
+    {
+      "file": "eegseizguard/__init__.py",
+      "lines": 2,
+      "nonblank": 2,
+      "sha256": "f8c80e0c409eafca5e06f05a9164a583c1abe26a7efd7f0a8a6bacd71681468f"
+    },
+    {
+      "file": "eegseizguard/charts.py",
+      "lines": 131,
+      "nonblank": 113,
+      "sha256": "65f5e204eaa0f84d735de3eb6691958e5d29574f730b7738835cb20961d7f53e"
+    },
+    {
+      "file": "eegseizguard/config.py",
+      "lines": 37,
+      "nonblank": 30,
+      "sha256": "1f6d11459236362ce7a4342b67eb02f98ebbadfbd5fcbfe4e96b462a8b51f6a2"
+    },
+    {
+      "file": "eegseizguard/connectivity.py",
+      "lines": 324,
+      "nonblank": 298,
+      "sha256": "d78dcdc2d9ea98b7dd72aa37c2dfbf179e74160dfe3c13929f1ec252cebffdce"
+    },
+    {
+      "file": "eegseizguard/data.py",
+      "lines": 109,
+      "nonblank": 104,
+      "sha256": "5f1e2139e602b926b8440ba62eaeb59431b4ef92987cafa911bef3e26da3d499"
+    },
+    {
+      "file": "eegseizguard/evaluation.py",
+      "lines": 100,
+      "nonblank": 95,
+      "sha256": "6e3d853d5789f46b23cc0fe892b037d323c23af643e361a2e3ac331dc7e15f7d"
+    },
+    {
+      "file": "eegseizguard/history.py",
+      "lines": 246,
+      "nonblank": 224,
+      "sha256": "6097dc8ccb48274f8cfc0530ff874c93e60dbab14056de1fd748102da091b06a"
+    },
+    {
+      "file": "eegseizguard/model.py",
+      "lines": 103,
+      "nonblank": 100,
+      "sha256": "636b2f608c885b3267dc69dbd579adf36b9cb0edf609dfbbde3176dfb130e835"
+    },
+    {
+      "file": "eegseizguard/pipeline.py",
+      "lines": 283,
+      "nonblank": 275,
+      "sha256": "34cc1e58981d3488579641c8bbd9af2a7f7a960f5ebbf1930767f32ca2acde26"
+    },
+    {
+      "file": "eegseizguard/server.py",
+      "lines": 239,
+      "nonblank": 225,
+      "sha256": "2da2ffcc40e332575c9de718972164568466a4fbae18e0b8c95c4ba5e61a227a"
+    },
+    {
+      "file": "eegseizguard/signal.py",
+      "lines": 256,
+      "nonblank": 243,
+      "sha256": "f55db219a657364969bc265609928fff19b4105a810c516e3576979a4d8d6f93"
+    },
+    {
+      "file": "eegseizguard/storage.py",
+      "lines": 64,
+      "nonblank": 57,
+      "sha256": "76f2186b73dac5bb3b3d928642e8d782506a66d69de7ae08b059827de51d765c"
+    },
+    {
+      "file": "web/app.js",
+      "lines": 828,
+      "nonblank": 785,
+      "sha256": "f10a85838e97f52ab78cde412d89c3726b848d4a454e450f92dff19978387a8a"
+    },
+    {
+      "file": "web/brain-network.css",
+      "lines": 20,
+      "nonblank": 20,
+      "sha256": "350c45b5f81fd1371b96465e401fe65429d2d4ddeb53778ec53079c46aea84d5"
+    },
+    {
+      "file": "web/brain-network.js",
+      "lines": 497,
+      "nonblank": 494,
+      "sha256": "955e0fd59733eca2bd334711220494fe1ac6bc306920fd6afd977b7fb85864ff"
+    },
+    {
+      "file": "web/index.html",
+      "lines": 130,
+      "nonblank": 121,
+      "sha256": "69c1d32aaa044256966a8da61cd1e6e9b2437178dc51637da70ab7ef279f0b71"
+    },
+    {
+      "file": "web/style.css",
+      "lines": 36,
+      "nonblank": 32,
+      "sha256": "9a86391a104e031bbec4a188b0edde89cf4e062344238f0e789a5902d266c783"
+    }
+  ],
+  "exclusions": [
+    "第三方依赖",
+    "原始EEG",
+    "模型参数",
+    "运行结果",
+    "测试代码"
+  ],
+  "note": "真实源程序行数；未进行申请材料排版或页数扩写"
+}

@@ -2,9 +2,9 @@
 
 一、启动
 双击本目录的“启动软件.bat”，浏览器将打开中文工作台。
-启动脚本优先使用本项目 .venv 环境，其次使用 PATH 中的 Python 3.12。
+启动脚本优先使用本项目 .venv 环境，其次使用 PATH 中的 Python。建议使用 Python 3.12，并核对实际解释器与依赖。
 程序需要Python及NumPy、SciPy、scikit-learn、Matplotlib。缺依赖时执行“安装依赖.bat”。
-本次验证环境为Windows、Python 3.12.13；具体依赖见验收记录.json与各任务provenance.json。
+本次验证环境为Windows、Python 3.12.14；具体依赖见requirements-lock.txt与各任务provenance.json。
 关闭启动窗口或按Ctrl+C停止服务。默认端口8765被占用时自动选空闲端口。
 界面只监听127.0.0.1。计算与文件均留在本机，无账号、CDN或上传功能。
 
@@ -61,6 +61,7 @@ metadata.feature_contract必须与本版本feature_contract()完全一致。
 模型为纯数值JSON，包含90维mean/scale/coef、intercept、固定threshold和患者来源。
 不加载pickle、joblib或任意.pt文件。随附历史JSON由原checkpoint以weights_only=True导出。
 模型的元数据不能自行证明外部模型来源真实，使用者仍需核实输入来源。
+当预测数据含有已知标签的test窗口时，模型必须声明训练患者来源，才能核验并计算独立测试指标；来源未知模型可使用inference分区输出研究分数。
 
 六、效果分析口径
 输出逐患者等权宏平均和所有窗合并指标，并报告支持数和未知窗排除数。

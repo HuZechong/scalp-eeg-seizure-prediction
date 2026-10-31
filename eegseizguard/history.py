@@ -50,6 +50,14 @@ def _verify_metric(actual, expected, label):
         raise ValueError(f'重算 {label} 与原始研究指标不一致；停止生成完成结果。')
 
 
+def _verify_fingerprint_pair(actual, expected, label):
+    if any(not isinstance(value, str) or re.fullmatch(r'[0-9a-fA-F]{64}', value) is None
+           for value in (actual, expected)):
+        raise ValueError(f'历史预测和事件评估的 {label} 缺失或不是合法 SHA256。')
+    if actual.lower() != expected.lower():
+        raise ValueError(f'历史预测和事件评估的 {label} 不一致。')
+
+
 def _metric_checks(recomputed, original):
     macro = recomputed['macro']
     checks = {}
@@ -132,11 +140,13 @@ def import_history(project, out, log=None, cancel=None):
         raise ValueError('历史预测内容与原研究元数据 SHA256 不一致。')
     if prediction_metadata.get('split_sha256') != hashes['split']:
         raise ValueError('历史患者划分与预测元数据 SHA256 不一致。')
-    if events.get('checkpoint_sha256') != prediction_metadata.get('checkpoint_sha256'):
-        raise ValueError('历史预测和事件评估不是同一个模型。')
+    _verify_fingerprint_pair(events.get('checkpoint_sha256'),
+                             prediction_metadata.get('checkpoint_sha256'), 'checkpoint_sha256')
+    identity = events.get('identity')
+    if not isinstance(identity, dict):
+        raise ValueError('历史事件评估缺少合法的来源 identity 对象。')
     for key in ('split_sha256', 'config_sha256', 'windows_sha256', 'labels_summary_sha256', 'cache_manifest_sha256'):
-        if events.get('identity', {}).get(key) != prediction_metadata.get(key):
-            raise ValueError(f'历史预测和事件评估的 {key} 不一致。')
+        _verify_fingerprint_pair(identity.get(key), prediction_metadata.get(key), key)
     if log:
         log('只读导入原项目 LogReg 测试预测，并重新核对全部患者窗口指标。')
     labels, probabilities, patients, ids = [], [], [], set()

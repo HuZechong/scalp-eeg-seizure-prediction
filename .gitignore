@@ -5,7 +5,6 @@ __pycache__/
 
 # 运行产物（用户本地任务记录）
 outputs/
-examples/network_demo.json
 
 # 系统
 Thumbs.db
